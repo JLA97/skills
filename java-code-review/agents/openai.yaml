@@ -1,4 +1,0 @@
-interface:
-  display_name: "Java Code Reviewer"
-  short_description: "Risk-first Java PR review with prioritized findings"
-  default_prompt: "Review this Java change and report prioritized findings with severity, file/line references, impact, and missing tests."

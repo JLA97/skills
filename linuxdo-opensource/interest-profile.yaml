@@ -1,0 +1,13 @@
+# 兴趣画像 v0 —— linuxdo-opensource 的个人关注点配置
+# Jev 在判断每个项目的 interest 分时会读取本文件内容（作为 state 的一部分）
+# 直接编辑文案即可生效；high=正中关注点(2) medium=沾边(1) low=无关(0)
+
+high:
+  - AI Agent 工作流与 coding agent 生态（pi/Claude Code/Codex 周边工具链）
+  - LLM 应用工程（路由、观测、上下文管理、成本控制）
+  - Skill/插件/扩展机制设计
+medium:
+  - 开发者效率工具、CLI、自托管面板
+  - 模型接入与中转方案
+low:
+  - 生活类应用、纯 UI/皮肤、非技术项目
