@@ -25,14 +25,23 @@ metadata:
 
 ## Workflow
 
-### STEP 1: 抓取标签列表（chrome-devtools）
+### STEP 1: 抓取标签列表（Computer Use 优先，Chrome DevTools 兜底）
+
+**优先路径：Computer Use**
+
+1. 检查 `cua_repl` / Computer Use 是否可用；优先绑定用户已登录的 Chrome，读取或打开标签列表 `https://linux.do/tag/2234-tag/2234?order=activity`。
+2. 只从列表行的可见内容和只读 DOM/无障碍信息提取 `id/title/views/posts_count`；可从列表行链接读取 topic ID，但不要点击标题或回复链接，不要进入详情页。
+3. 保留**列表当前顺序**（activity 序），翻页至扫描上限（**5 页 / 150 帖**）或后续页为空；合并去重（按 id），写入 `topics.json`。
+4. Computer Use 不可用、浏览器没有可用登录态，或 UI/DOM 无法可靠读取所需字段/翻页时，改用下面的 Chrome DevTools 兜底路径。不要用搜索引擎、WebFetch 或 curl 拼补。
+
+**兜底路径：Chrome DevTools**
 
 1. `new_page("https://linux.do/tag/2234-tag/2234.json?ascending=false&order=activity")`
-2. evaluate_script 解析 `data.topic_list.topics`，提取 `id/title/views/posts_count`，保留**列表当前顺序**（activity 序）
-3. 翻页 `&page=1,2,…`，直到满足任一：凑满扫描上限（**5 页 / 150 帖**）或后续页为空
-4. 合并去重（按 id），写入 `topics.json`
+2. 用 `evaluate_script` 解析 `data.topic_list.topics`，提取 `id/title/views/posts_count`，保留**列表当前顺序**（activity 序）。
+3. 翻页 `&page=1,2,…`，直到满足任一：凑满扫描上限（**5 页 / 150 帖**）或后续页为空。
+4. 合并去重（按 id），写入 `topics.json`。
 
-**异常**：登录墙/验证页 → 提示用户在 Chrome 完成登录/验证后重跑；**禁止**搜索引擎拼凑、禁止开详情页、**禁止修改 seen_topics**。
+**异常**：任一路径遇到登录墙/验证页 → 提示用户在 Chrome 完成登录/验证后重跑；**禁止**搜索引擎拼凑、禁止开详情页、**禁止修改 seen_topics**。若 Chrome DevTools 兜底也不可用或无法可靠读取列表，说明阻塞并停止。
 
 ### STEP 2: 判断层 + 组合打分（jev-ask-oss.mjs，Jev / LLM 双策略）
 

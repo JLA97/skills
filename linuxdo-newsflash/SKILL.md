@@ -20,7 +20,7 @@ metadata:
 - **标题级归纳**：只读板块列表页的标题与可见元数据（创建时间/浏览/回复），**绝不进入帖子详情页**，不读楼主正文或回复。所有输出必须标注"标题级归纳"。
 - **滚动窗口**：默认窗口 = 北京时间前一天 00:00 → 运行时刻（按 `created_at` 过滤，绝不用 `bumped_at`）。用户显式给定日期时，窗口 = 该日 00:00:00 ~ 23:59:59（北京时间）。
 - **判断与生成分离**：去重/清噪/分类/信息完整度由 `jev-ask.mjs` 判断并交代码组合（稳定、可回归）；判断层支持 **Jev / 本地 LLM 双策略**（`--judge` 开关，默认 auto：有 `TYPESAFE_API_KEY` 用 Jev，否则本地 LLM 零外部 API）；中文概述与趋势分析由 LLM 生成。
-- **登录态抓取**：linux.do 需要登录态，**唯一正确方式是 chrome-devtools**（new_page + evaluate_script）。禁止用 WebFetch；bash curl 禁令**仅针对 linux.do 域名**——`api.typesafe.ai` 由脚本访问，是允许且必要的。
+- **登录态抓取**：linux.do 需要登录态，优先用 **Computer Use** 在已登录浏览器中读取分类列表；只有 Computer Use 不可用或无法可靠读取列表时，才回退到 Chrome DevTools（`new_page` + `evaluate_script`）。两种方式都只读列表页，不打开帖子详情。禁止用 WebFetch；bash curl 禁令**仅针对 linux.do 域名**——`api.typesafe.ai` 由判断脚本访问，是允许且必要的。
 
 ## Workflow
 
@@ -29,13 +29,25 @@ metadata:
 - 默认（快讯模式）：`WINDOW_START` = 北京时间昨天 00:00:00（`+08:00`），`WINDOW_END` = 当前时刻。
 - 用户显式指定日期 `YYYY-MM-DD`：`WINDOW_START` = 当日 00:00:00 `+08:00`，`WINDOW_END` = 当日 23:59:59 `+08:00`。
 
-### STEP 1: 抓取板块列表（chrome-devtools）
+### STEP 1: 抓取板块列表（Computer Use 优先，Chrome DevTools 兜底）
+
+**优先路径：Computer Use**
+
+1. 检查 `cua_repl` / Computer Use 是否可用；优先绑定用户已登录的 Chrome，读取或打开分类列表 `https://linux.do/c/news/34?order=created`。
+2. 只从分类列表的可见行和只读 DOM/无障碍信息提取：主题 `id`、标题、创建时间、浏览量、回复数。可使用列表行链接和行元数据；不要点击主题标题或回复链接，不要进入详情页。
+3. 只按列表行的 **Created/创建时间** 过滤和分页，绝不用 Latest/最新回复、相对活跃度或 `bumped_at` 判断窗口边界。读取后将可解析的创建时间统一转成带时区的 ISO 时间，再应用窗口过滤。
+4. 若 Computer Use 不可用、浏览器未提供登录态，或列表 UI/DOM 无法可靠提供窗口边界所需的创建时间/元数据，则改走下面的 Chrome DevTools 兜底路径。不要用搜索引擎、WebFetch 或 curl 拼补。
+
+**兜底路径：Chrome DevTools**
 
 1. `new_page("https://linux.do/c/news/34.json")`
-2. 用 evaluate_script 解析 JSON，从 `data.topic_list.topics` 提取：`id`、`title`、`created_at`、`views`、`posts_count`
+2. 用 `evaluate_script` 解析 JSON，从 `data.topic_list.topics` 提取：`id`、`title`、`created_at`、`views`、`posts_count`
 3. **翻页**：若本页最旧的 `created_at` 仍 ≥ `WINDOW_START`，继续 `new_page("https://linux.do/c/news/34.json?page=1")`（page=2,3…），直到出现窗口前的帖子
-4. 合并所有页，按 `created_at` ∈ [WINDOW_START, WINDOW_END] 过滤，按 `created_at` 升序排序，按 `id` 去重
-5. 将结果写入 `topics.json`（数组元素：`{id, title, created_at, views, posts_count}`），形如：
+
+**两种路径共用的收尾步骤**
+
+1. 合并所有页，按 `created_at` ∈ [WINDOW_START, WINDOW_END] 过滤，按 `created_at` 升序排序，按 `id` 去重。
+2. 将结果写入 `topics.json`（数组元素：`{id, title, created_at, views, posts_count}`），形如：
 
 ```json
 [
@@ -123,4 +135,5 @@ node /Users/leo/.agents/skills/linuxdo-newsflash/jev-ask.mjs topics.json -o even
 - **Jev 调用失败/超时**：脚本自动重试 3 次；仍失败 → 改用 `--judge llm` 重跑（两阶段本地判断），简报按 `judge` 字段注明判断层
 - **llm-judgments.json 的 task_hash 不匹配**：主题集已变化，按新生成的 `llm-task.json` 重新填写后重跑
 - **浏览器被登录墙拦截**：截图确认后提示用户登录，不猜测、不搜索替代
+- **Computer Use 不能可靠提取创建时间或页面元数据**：使用 Chrome DevTools 的分类 JSON 列表兜底；若该工具也不可用或被权限策略拦截，说明具体阻塞并停止，不用替代来源猜补。
 - **事件数异常少**：检查 topics.json 的窗口过滤与翻页是否漏页（每页约 30 帖）；llm 模式下还需确认 llm-judgments.json 是否漏答（漏答计入 stats.missing_answers）
