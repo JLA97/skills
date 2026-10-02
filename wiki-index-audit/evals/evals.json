@@ -3,30 +3,31 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "审计当前 Wiki 的关键认知索引，看看有没有重复、膨胀和失效来源。只给报告，不要直接改知识结构。",
-      "expected_output": "运行确定性脚本和语义复核，按 P0-P3 给出带证据的报告，不自动修复。",
-      "files": [
-        "关键认知索引.md",
-        ".wiki-audit/config.json"
+      "prompt": "在 /Users/leo/Documents/llm 执行 Wiki 审计，核心任务是保证检索性能、降低冗余，并判断页面有无过度拆分或过度拥挤。只报告。",
+      "expected_output": "全库机械扫描后浏览导航和页面概要，实际阅读候选正文，以复核范围与最小变更集两张表报告；未读范围不得称健康，无真实查询时不得声称实际召回已验证。",
+      "files": ["关键认知索引.md", "commonAgent/README.md", "agentFramework/README.md"],
+      "assertions": [
+        "有扫描结果且 mechanical_status 与 semantic_status 分开",
+        "列出已读正文位置与未核验范围",
+        "合并或拆页建议说明独立任务、入口和需保留内容",
+        "字数与共同来源仅为候选，不直接判缺陷",
+        "无真实原问题时明确实际查询效果未验证",
+        "未修改 Wiki 或刷新基线"
       ]
     },
     {
       "id": 2,
-      "prompt": "我刚给关键认知索引加了 6 张卡，做一次快速健检。",
-      "expected_output": "使用 quick 模式检查字段、链接、规模和基线增长，并指出已越过新增卡片触发阈值。",
-      "files": [
-        "关键认知索引.md",
-        ".wiki-audit/config.json",
-        ".wiki-audit/baseline.json"
-      ]
+      "prompt": "执行月度审计，但没有真实漏召回案例，也不维护 retrieval-evals.json。",
+      "expected_output": "继续检查结构可检索性与正文边界，注明实际查询效果未验证；不生成假想召回测试或要求新建 retrieval-evals.json。",
+      "files": ["关键认知索引.md"],
+      "assertions": ["不构造假想召回案例", "不因没有案例跳过导航及正文边界复核"]
     },
     {
       "id": 3,
-      "prompt": "上次审计认为两张卡应该合并，帮我直接整理。",
-      "expected_output": "先核对用户是否已经确认具体变更集；只有确认后进入 fix，并在修改后重跑 full 和 Markdown 链接验证；如果修改了召回字段，再用真实问题做临时冒烟检查。",
-      "files": [
-        "关键认知索引.md"
-      ]
+      "prompt": "按已经确认的审计变更集修复 Wiki，然后验收。",
+      "expected_output": "执行已授权变更，保留独有判断和证据，同步 README/卡片，复跑扫描并重读受影响主题；有真实原问题才回放查询，不用基线刷新冒充验收。",
+      "files": [],
+      "assertions": ["仅执行已确认变更集", "结构修复有正文复验和链接扫描", "无自动基线更新"]
     }
   ]
 }
