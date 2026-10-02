@@ -71,6 +71,14 @@ class WikiScanTest(unittest.TestCase):
         page = next(page for page in report["pages"] if page["path"] == "README.md")
         self.assertEqual(1, len(page["sections"]))
 
+    def test_language_marker_cannot_close_an_existing_fence(self):
+        self.write("README.md", "# 导航\n```\n```java\n[示例](missing.md)\n```\n## 真实章节\n[正文](topic.md)\n")
+        report = self.scan()
+        self.assertEqual([], report["findings"])
+        page = next(page for page in report["pages"] if page["path"] == "README.md")
+        self.assertEqual(["导航", "真实章节"], [section["title"] for section in page["sections"]])
+        self.assertEqual(1, len(page["links"]))
+
     def test_length_is_signal_not_content_defect(self):
         self.write("关键认知索引.md", "# 索引\n" + card(extra="很长的正文" * 200))
         report = self.scan({"thresholds": {"card_chars_review": 100}})

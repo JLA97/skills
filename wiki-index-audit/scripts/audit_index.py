@@ -43,12 +43,12 @@ def visible_lines(text):
     """Ignore headings and links in fenced code; preserve original line numbers."""
     fence = None
     for number, line in enumerate(text.splitlines(), 1):
-        match = re.match(r"^\s{0,3}(`{3,}|~{3,})", line)
+        match = re.match(r"^\s{0,3}(`{3,}|~{3,})(.*)$", line)
         if match:
             marker = match.group(1)
             if fence is None:
                 fence = marker
-            elif marker[0] == fence[0] and len(marker) >= len(fence):
+            elif marker[0] == fence[0] and len(marker) >= len(fence) and not match.group(2).strip():
                 fence = None
             continue
         if fence is None:
