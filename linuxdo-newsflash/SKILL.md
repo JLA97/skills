@@ -20,6 +20,7 @@ metadata:
 - **标题级归纳**：只读板块列表页的标题与可见元数据（创建时间/浏览/回复），**绝不进入帖子详情页**，不读楼主正文或回复。所有输出必须标注"标题级归纳"。
 - **滚动窗口**：默认窗口 = 北京时间前一天 00:00 → 运行时刻（按 `created_at` 过滤，绝不用 `bumped_at`）。用户显式给定日期时，窗口 = 该日 00:00:00 ~ 23:59:59（北京时间）。
 - **判断与生成分离**：去重/清噪/分类/信息完整度由 `jev-ask.mjs` 判断并交代码组合（稳定、可回归）；判断层支持 **Jev / 本地 LLM 双策略**（`--judge` 开关，默认 auto：有 `TYPESAFE_API_KEY` 用 Jev，否则本地 LLM 零外部 API）；中文概述与趋势分析由 LLM 生成。
+- **临时处理文件与最终交付**：流程按需创建 `topics.json`、`events.json`，本地 LLM 模式还会创建 `llm-task.json`、`llm-judgments.json`。用户要求“不创建文件/不落盘”时，按本 skill 的交付约定理解为不创建或交付最终简报文件；这些临时处理中间文件仍可创建，生成简报后必须清理。最终简报只发在对话/任务结果中。若用户明确禁止任何文件（包括临时文件），先说明文件型判断流程受阻并请求允许临时处理中间文件，不得创建最终报告文件。
 - **登录态抓取**：linux.do 需要登录态，优先用 **Computer Use** 在已登录浏览器中读取分类列表；只有 Computer Use 不可用或无法可靠读取列表时，才回退到 Chrome DevTools（`new_page` + `evaluate_script`）。两种方式都只读列表页，不打开帖子详情。禁止用 WebFetch；bash curl 禁令**仅针对 linux.do 域名**——`api.typesafe.ai` 由判断脚本访问，是允许且必要的。
 
 ## Workflow
@@ -47,7 +48,7 @@ metadata:
 **两种路径共用的收尾步骤**
 
 1. 合并所有页，按 `created_at` ∈ [WINDOW_START, WINDOW_END] 过滤，按 `created_at` 升序排序，按 `id` 去重。
-2. 将结果写入 `topics.json`（数组元素：`{id, title, created_at, views, posts_count}`），形如：
+2. 将结果写入本次运行的临时 `topics.json`（数组元素：`{id, title, created_at, views, posts_count}`），形如：
 
 ```json
 [
@@ -124,7 +125,7 @@ node /Users/leo/.agents/skills/linuxdo-newsflash/jev-ask.mjs topics.json -o even
 - ✅ 去重规则："同一具体事件"才合并；**关联但事实不同的事件严禁合并**（已固化进 dup 的 rubric）
 - ✅ 未确认内容保留不确定性措辞（由 `unverified` 标记驱动）
 - ✅ 同组多个原帖链接附在事件下
-- ✅ 中间文件（topics.json/events.json，llm 模式另有 llm-task.json/llm-judgments.json）放在工作目录，简报本身不落盘
+- ✅ 中间文件（`topics.json`/`events.json`，LLM 模式另有 `llm-task.json`/`llm-judgments.json`）允许作为临时处理文件创建；简报本身不落盘，交付后删除本次运行的中间文件
 - ❌ 不进帖子详情页、不读正文
 - ❌ 不用 WebFetch / 不用 curl 访问 linux.do（登录态限制）
 - ❌ 无窗口内容时不展示其他日期凑数
