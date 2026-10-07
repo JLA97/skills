@@ -10,7 +10,7 @@
 
 ## Skill Index
 
-以下索引覆盖仓库中 27 个非隐藏 skill 目录；名称以技能文件的 `name` 为准。本地 `.system/` 被 Git 忽略，不属于本仓库的发布内容。
+以下索引覆盖仓库中 28 个非隐藏 skill 目录；名称以技能文件的 `name` 为准。本地 `.system/` 被 Git 忽略，不属于本仓库的发布内容。
 
 | Skill | 目录 | 主要用途 | 常见触发 |
 |---|---|---|---|
@@ -22,6 +22,7 @@
 | `bro` | [`bro/`](bro/SKILL.md) | 用无术语的人话简短重述上一条消息 | 显式调用 /bro |
 | `claude-weekly-blog` | [`claude-weekly-blog/`](claude-weekly-blog/SKILL.md) | 分析本周 Claude 博客文章 | Claude blog this week、Claude 本周博客 |
 | `deep-research` | [`deep-research/`](deep-research/SKILL.md) | 多轮搜索、反思、证据交叉验证的深度研究 | research、调查、综合分析、带引用报告 |
+| `design-understanding-check` | [`design-understanding-check/`](design-understanding-check/SKILL.md) | 复杂方案实施前，通过解释与提问帮助使用者理解并接手设计 | 已有复杂方案、理解关键取舍、实施前理解检查 |
 | `eli5` | [`eli5/`](eli5/SKILL.md) | 用大图和少量文字解释陌生概念 | /eli5 <主题>、用最简单的图解释 |
 | `github-repo-analyzer` | [`github-repo-analyzer/`](github-repo-analyzer/SKILL.md) | 分析 GitHub 仓库功能、技术栈和架构 | 给出 GitHub repo URL 并要求分析 |
 | `goal-ready-coach` | [`goal-ready-coach/`](goal-ready-coach/SKILL.md) | 把模糊任务收敛为 Goal Contract，确认后落盘 | Goal Ready、转成 Goal、创建 Goal 前先澄清、小步快跑 |
@@ -50,6 +51,7 @@
 | 浏览 linux.do 快讯或开源项目 | [linuxdo-newsflash](linuxdo-newsflash/SKILL.md)、[linuxdo-opensource](linuxdo-opensource/SKILL.md) | 前者只读快讯标题；后者筛项目并维护展示账本 |
 | 分析文章、仓库或研究问题 | [web-tech-article-analyzer](web-tech-article-analyzer/SKILL.md)、[github-repo-analyzer](github-repo-analyzer/SKILL.md)、[deep-research](deep-research/SKILL.md)、[reddit-analyzer](reddit-analyzer/SKILL.md) | 分别面向文章、代码仓库、多来源研究和社区筛选 |
 | 看懂概念或技术流程 | [answer-me-with-html](answer-me-with-html/SKILL.md)、[archify](archify/SKILL.md)、[eli5](eli5/SKILL.md) | 分别侧重单页解释、技术图和零基础图解 |
+| 理解并接手已有复杂方案 | [design-understanding-check](design-understanding-check/SKILL.md) | 设计完成后、实施前检查理解；不承担前置设计或开发验证 |
 | 排版文档或处理 PDF | [kami](kami/SKILL.md)、[pdf](pdf/SKILL.md) | 前者负责视觉排版；后者负责 PDF 内容与文件操作 |
 | 澄清任务、推进复杂开发或交接 | [goal-ready-coach](goal-ready-coach/SKILL.md)、[incremental-development](incremental-development/SKILL.md)、[handoff](handoff/SKILL.md) | 分别负责契约收敛、行为切片与会话恢复 |
 | 创建工具、AI 功能或审查代码 | [agent-cli-design](agent-cli-design/SKILL.md)、[tap-adapter-author](tap-adapter-author/SKILL.md)、[typesafe-ai](typesafe-ai/SKILL.md)、[open-code-review](open-code-review/SKILL.md) | 分别面向 CLI、站点 adapter、类型化语义判断和 Git review |
@@ -200,6 +202,20 @@ latest Claude posts
 调查这个技术方向的主要方案、争议和最新进展。
 ```
 
+### design-understanding-check
+
+**用途：** 在复杂方案设计完成后、实施前，解释目的、机制与取舍，通过场景问题帮助使用者理解并接手维护。
+
+**适合场景：** 核心机制相互依赖、存在重要取舍或维护负担，且误解会影响判断或维护。
+
+**示例：**
+
+```text
+方案已经设计好了，先帮助我理解关键设计，再开始实施。
+```
+
+**注意：** 默认暂停实施，允许明确跳过；依据实际回答检查理解，不按题数判定。与 `incremental-development` 独立共存，不自动绑定调用。
+
 ### eli5
 
 **用途：** 像面对完全不了解主题的人一样解释概念，用大图和少量文字生成 HTML 图解。
@@ -318,7 +334,7 @@ Load Mode:
 不要先铺完整框架，先交付一个能独立验收的行为。
 ```
 
-**注意：** 简单局部修复、机械批量修改和纯概念讲解不启用完整切片流程；实现状态与实际验证状态必须分开记录。
+**注意：** 简单改动不强行拆分，纯概念讲解不启用；关键验证失败或受阻时，不推进依赖它的工作，不把未验证说成已通过。
 
 ### kami
 
