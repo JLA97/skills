@@ -10,19 +10,18 @@
 
 ## Skill Index
 
-以下索引覆盖仓库中 29 个非隐藏 skill 目录；名称以 `SKILL.md` 的 `name` 为准（例如 `diagram-viz` 位于 `diagram/`）。本地 `.system/` 被 Git 忽略，不属于本仓库的发布内容。
+以下索引覆盖仓库中 27 个非隐藏 skill 目录；名称以技能文件的 `name` 为准。本地 `.system/` 被 Git 忽略，不属于本仓库的发布内容。
 
 | Skill | 目录 | 主要用途 | 常见触发 |
 |---|---|---|---|
 | `agent-cli-design` | [`agent-cli-design/`](agent-cli-design/SKILL.md) | 设计、审计、实现 agent 友好的 CLI | CLI 设计、Click/Cobra/Clap/argparse、MCP vs CLI |
 | `aihot` | [`aihot/`](aihot/SKILL.md) | 查询 AI HOT 中文 AI 资讯、精选、热点和日报 | AI 日报、AI HOT、今天 AI 圈有什么 |
 | `answer-me-with-html` | [`answer-me-with-html/`](answer-me-with-html/SKILL.md) | 将 Markdown 草稿渲染为单页 HTML 解释器，支持讲解视频 | 讲讲原理、方案对比、没看懂、做个视频 |
-| `anthropic-weekly-blog` | [`anthropic-weekly-blog/`](anthropic-weekly-blog/SKILL.md) | 分析本周 Anthropic Engineering 博客 | Anthropic weekly blog、本周 Anthropic 工程博客 |
+| `anthropic-weekly-blog` | [`anthropic-weekly-blog/`](anthropic-weekly-blog/skill.md) | 分析本周 Anthropic Engineering 博客 | Anthropic weekly blog、本周 Anthropic 工程博客 |
 | `archify` | [`archify/`](archify/SKILL.md) | 生成可交互、可导出的 HTML/SVG 技术图 | 系统架构、调用时序、数据流、状态机、Mermaid 美化 |
 | `bro` | [`bro/`](bro/SKILL.md) | 用无术语的人话简短重述上一条消息 | 显式调用 /bro |
 | `claude-weekly-blog` | [`claude-weekly-blog/`](claude-weekly-blog/SKILL.md) | 分析本周 Claude 博客文章 | Claude blog this week、Claude 本周博客 |
 | `deep-research` | [`deep-research/`](deep-research/SKILL.md) | 多轮搜索、反思、证据交叉验证的深度研究 | research、调查、综合分析、带引用报告 |
-| `diagram-viz` | [`diagram/`](diagram/SKILL.md) | 生成 draw.io 图表或 HTML 信息图 | 画图、流程图、架构图、信息图、可视化 |
 | `eli5` | [`eli5/`](eli5/SKILL.md) | 用大图和少量文字解释陌生概念 | /eli5 <主题>、用最简单的图解释 |
 | `github-repo-analyzer` | [`github-repo-analyzer/`](github-repo-analyzer/SKILL.md) | 分析 GitHub 仓库功能、技术栈和架构 | 给出 GitHub repo URL 并要求分析 |
 | `goal-ready-coach` | [`goal-ready-coach/`](goal-ready-coach/SKILL.md) | 把模糊任务收敛为 Goal Contract，确认后落盘 | Goal Ready、转成 Goal、创建 Goal 前先澄清、小步快跑 |
@@ -35,7 +34,6 @@
 | `openai-weekly-blog` | [`openai-weekly-blog/`](openai-weekly-blog/SKILL.md) | 分析 OpenAI 本周 Research/Engineering 博客 | OpenAI blog this week、OpenAI 本周博客 |
 | `pdf` | [`pdf/`](pdf/SKILL.md) | PDF 提取、生成、合并、拆分、表单处理 | PDF 分析、填表、合并、拆分 |
 | `reddit-analyzer` | [`reddit-analyzer/`](reddit-analyzer/SKILL.md) | 筛选 Reddit 高质量技术帖子 | 分析 Reddit、AgentsOfAI 帖子 |
-| `show-me` | [`show-me/`](show-me/SKILL.md) | 用小型图示、代码结构草图或 HTML 说明当前话题 | 用图说明当前话题、展示调用树或代码结构 |
 | `skill-creator` | [`skill-creator/`](skill-creator/SKILL.md) | 创建、修改、优化、评测 skills | 创建 skill、优化 skill、skill eval |
 | `sync-docs-index` | [`sync-docs-index/`](sync-docs-index/SKILL.md) | 同步文档目录索引和摘要，整理单篇文章 | 更新索引、同步文档摘要、整理文章 |
 | `tap-adapter-author` | [`tap-adapter-author/`](tap-adapter-author/SKILL.md) | 为新站点或命令编写 TAP adapter | 写 TAP adapter、适配新网站 |
@@ -48,10 +46,10 @@
 
 | 你想做什么 | 推荐入口 | 选择边界 |
 |---|---|---|
-| 查询 AI 新闻或技术博客 | [aihot](aihot/SKILL.md)、[Anthropic 周报](anthropic-weekly-blog/SKILL.md)、[Claude 周报](claude-weekly-blog/SKILL.md)、[OpenAI 周报](openai-weekly-blog/SKILL.md) | AI HOT 查资讯；周报按站点与周范围过滤 |
+| 查询 AI 新闻或技术博客 | [aihot](aihot/SKILL.md)、[Anthropic 周报](anthropic-weekly-blog/skill.md)、[Claude 周报](claude-weekly-blog/SKILL.md)、[OpenAI 周报](openai-weekly-blog/SKILL.md) | AI HOT 查资讯；周报按站点与周范围过滤 |
 | 浏览 linux.do 快讯或开源项目 | [linuxdo-newsflash](linuxdo-newsflash/SKILL.md)、[linuxdo-opensource](linuxdo-opensource/SKILL.md) | 前者只读快讯标题；后者筛项目并维护展示账本 |
 | 分析文章、仓库或研究问题 | [web-tech-article-analyzer](web-tech-article-analyzer/SKILL.md)、[github-repo-analyzer](github-repo-analyzer/SKILL.md)、[deep-research](deep-research/SKILL.md)、[reddit-analyzer](reddit-analyzer/SKILL.md) | 分别面向文章、代码仓库、多来源研究和社区筛选 |
-| 看懂概念或技术流程 | [answer-me-with-html](answer-me-with-html/SKILL.md)、[archify](archify/SKILL.md)、[diagram-viz](diagram/SKILL.md)、[show-me](show-me/SKILL.md)、[eli5](eli5/SKILL.md) | 单页解释、技术图、双风格绘图、小型草图和零基础图解各有侧重 |
+| 看懂概念或技术流程 | [answer-me-with-html](answer-me-with-html/SKILL.md)、[archify](archify/SKILL.md)、[eli5](eli5/SKILL.md) | 分别侧重单页解释、技术图和零基础图解 |
 | 排版文档或处理 PDF | [kami](kami/SKILL.md)、[pdf](pdf/SKILL.md) | 前者负责视觉排版；后者负责 PDF 内容与文件操作 |
 | 澄清任务、推进复杂开发或交接 | [goal-ready-coach](goal-ready-coach/SKILL.md)、[incremental-development](incremental-development/SKILL.md)、[handoff](handoff/SKILL.md) | 分别负责契约收敛、行为切片与会话恢复 |
 | 创建工具、AI 功能或审查代码 | [agent-cli-design](agent-cli-design/SKILL.md)、[tap-adapter-author](tap-adapter-author/SKILL.md)、[typesafe-ai](typesafe-ai/SKILL.md)、[open-code-review](open-code-review/SKILL.md) | 分别面向 CLI、站点 adapter、类型化语义判断和 Git review |
@@ -201,24 +199,6 @@ latest Claude posts
 对这个主题做 deep research，给出证据和引用。
 调查这个技术方向的主要方案、争议和最新进展。
 ```
-
-### diagram-viz
-
-**用途：** 绘制图表和信息可视化。支持 draw.io 图表和 HTML 信息图。
-
-**适合场景：**
-
-- 流程图、架构图、时序图、ER 图、网络拓扑。
-- 分层分色、信息密度高的 HTML 信息图。
-
-**示例：**
-
-```text
-画一张这个系统的架构图。
-把这个流程做成横向排版的信息图。
-```
-
-**注意：** 该 skill 在执行前会先询问使用 `draw.io` 还是 `HTML 信息图` 风格。
 
 ### eli5
 
@@ -465,23 +445,6 @@ OpenAI weekly articles 20260314
 筛选这个 subreddit 里最值得看的技术讨论。
 ```
 
-### show-me
-
-**用途：** 用最小的可视化视图说明当前话题，减少前言和冗长解释。
-
-**适合场景：**
-
-- 用伪代码、调用树、组件树或浅层文件树解释逻辑与边界。
-- 用 Mermaid 展示交互、控制流或数据流。
-- 用 diff 展示结构变化；复杂 UI 或布局用聚焦的 HTML 页面。
-
-**示例：**
-
-```text
-用调用树展示这个请求经过哪些函数。
-用一个小图说明当前重构改变了什么。
-```
-
 ### skill-creator
 
 **用途：** 创建、修改、优化和评测 skills。
@@ -630,7 +593,7 @@ OpenAI weekly articles 20260314
 │   └── handoff-agent-relay-infographic.png
 ├── handoff/
 │   └── SKILL.md
-├── diagram/
+├── archify/
 │   └── SKILL.md
 └── ...
 ```
