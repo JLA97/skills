@@ -1,5 +1,6 @@
 ---
 name: anthropic-weekly-blog
+disable-model-invocation: true
 description: Analyze Anthropic engineering blog posts from the current week and generate a Chinese weekly technical report. Use when the user asks about "Anthropic weekly blog", "latest Anthropic engineering posts", "分析本周 Anthropic 博客", "本周 Anthropic 工程博客", "Anthropic 本周博客", or wants this week's Anthropic technical articles summarized or analyzed.
 ---
 

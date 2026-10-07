@@ -1,5 +1,6 @@
 ---
 name: wiki-index-audit
+disable-model-invocation: true
 description: 审计 Markdown Wiki 的检索入口、内容冗余和页面边界，检查 README→认知卡→专题正文是否易于定位，判断过度拆分与内容拥挤。当用户要求 Wiki 健检、检索质量审计、减少重复内容、评估合并拆页或审计关键认知索引时使用。默认只报告，结构修改需用户确认具体变更集。
 ---
 

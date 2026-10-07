@@ -1,5 +1,6 @@
 ---
 name: github-repo-analyzer
+disable-model-invocation: true
 description: This skill should be used when the user provides a GitHub repository URL and asks to analyze, understand, or summarize the repository's main features, technology stack, architecture, or highlights. It enables comprehensive analysis of GitHub repos by using a combination of curl and chrome-devtools tools to fetch repository metadata, README.md files, and official documentation, then generating structured technical reports.
 ---
 

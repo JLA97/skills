@@ -1,5 +1,6 @@
 ---
 name: openai-weekly-blog
+disable-model-invocation: true
 description: Analyzes OpenAI's weekly blog posts via TAP CLI. Triggers when users ask about "OpenAI blog this week", "OpenAI weekly articles", "latest OpenAI Research/Engineering posts", "OpenAI 本周博客", or provide a date like "20260314" to filter that week's articles. Filters for Research and Engineering categories only, provides 20-30 character summaries in Chinese.
 ---
 

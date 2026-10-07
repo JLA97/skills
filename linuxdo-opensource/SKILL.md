@@ -1,5 +1,6 @@
 ---
 name: linuxdo-opensource
+disable-model-invocation: true
 description: >-
   分析 linux.do「开源推广」标签列表页（linux.do/tag/2234-tag/2234?order=activity），从尚未展示过的
   开源项目中按"个人兴趣 × 质量 × 互动"组合打分挑选 Top 20。由脚本批量判断

@@ -1,5 +1,6 @@
 ---
 name: reddit-analyzer
+disable-model-invocation: true
 description: Analyzes Reddit subreddits (especially AgentsOfAI) to filter and rank high-quality technical posts. Triggers when users say "分析 Reddit", "Reddit 筛选", "AgentsOfAI 帖子", "Reddit AgentsOfAI", or provide a Reddit subreddit URL. Uses tap CLI to fetch posts, applies multi-layer filtering (interaction metrics, content rules, AI quality assessment), and returns Top 10 most valuable technical posts with engagement stats and links.
 ---
 

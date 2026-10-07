@@ -1,5 +1,6 @@
 ---
 name: claude-weekly-blog
+disable-model-invocation: true
 description: Analyzes Claude blog posts from claude.com/blog for the current week. Triggers when users ask about "Claude blog this week", "Claude weekly articles", "latest Claude posts", "Claude 本周博客", or want to see what Claude published recently. Filters posts by Beijing time (UTC+8) for the current week (last Sunday to this Saturday), provides 20-30 character summaries in Chinese, and includes original links.
 ---
 

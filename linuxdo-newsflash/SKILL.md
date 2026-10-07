@@ -1,5 +1,6 @@
 ---
 name: linuxdo-newsflash
+disable-model-invocation: true
 description: >-
   分析 linux.do「前沿快讯」板块（linux.do/c/news/34）的标题级中文日报。只读板块列表标题与可见元数据，
   不进入帖子详情页。判断层由脚本完成语义去重、清噪、分类与信息完整度打分（Jev/本地 LLM 双策略可切换，

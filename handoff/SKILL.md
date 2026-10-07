@@ -1,5 +1,6 @@
 ---
 name: handoff
+disable-model-invocation: true
 description: This skill should be used when the user requests to save progress, load prior progress, pause work, create/read a handoff document, continue from a handoff, or says "保存进度", "读取 handoff", "恢复进度", "继续上次", "load handoff", "handoff", "暂停", "checkpoint", "交接". It enables zero-loss context transfer across AI agent sessions by creating or loading a structured handoff document written FOR THE NEXT AI AGENT (not for humans). Use this at session end, when approaching context limits, before task switching, or when resuming from a prior handoff. The handoff preserves executable context - specific file paths, function names, decision rationale, failed approaches, and priority-ordered next steps.
 ---
 

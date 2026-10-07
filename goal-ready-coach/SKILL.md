@@ -1,5 +1,6 @@
 ---
 name: goal-ready-coach
+disable-model-invocation: true
 description: >-
   将尚不明确、需要小步推进的任务持续收敛为可自主执行的 Goal Contract，并在使用者明确确认后输出最终契约、落盘存档。
   当用户提到 Goal Ready、转成 Goal、创建 Goal 前先澄清、小步快跑、任务还没想清楚、帮我把需求问清楚，
