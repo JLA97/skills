@@ -5,29 +5,44 @@
 原则：
 
 - 不把人类说明写进各个 skill 运行目录，避免干扰 agent 读取 `SKILL.md`。
-- 仓库级图片和示意图统一放在 `assets/`。
+- 仓库级图片和示意图统一放在根目录 `assets/`；技能自身的模板与字体等仍放在各技能目录。
 - `SKILL.md` 保持机器可执行、约束明确；README 只做导航和解释。
+
+**快速导航：** [按任务查找](#按任务查找) · [完整清单](#skill-index) · [技能说明与示例](#skills) · [目录结构](#repository-layout) · [维护说明](#maintenance-notes)
+
+## 按任务查找
+
+| 你想做什么 | 推荐入口 | 选择边界 |
+|---|---|---|
+| 查询 AI 新闻或技术博客 | [aihot](aihot/SKILL.md)、[Anthropic 周报](anthropic-weekly-blog/skill.md)、[Claude 周报](claude-weekly-blog/SKILL.md)、[OpenAI 周报](openai-weekly-blog/SKILL.md) | AIHOT 查实时资讯；周报分别按各技能的站点、时区与周范围过滤 |
+| 浏览 linux.do 快讯或开源项目 | [linuxdo-newsflash](linuxdo-newsflash/SKILL.md)、[linuxdo-opensource](linuxdo-opensource/SKILL.md) | 前者只读快讯标题；后者筛项目并维护展示账本 |
+| 分析文章、仓库或研究问题 | [web-tech-article-analyzer](web-tech-article-analyzer/SKILL.md)、[github-repo-analyzer](github-repo-analyzer/SKILL.md)、[deep-research](deep-research/SKILL.md)、[reddit-analyzer](reddit-analyzer/SKILL.md) | 分别面向文章、代码仓库、多来源研究和社区筛选 |
+| 看懂概念或技术流程 | [archify](archify/SKILL.md)、[eli5](eli5/SKILL.md) | 前者绘制技术图；后者用大图和少量文字做零基础解释 |
+| 排版文档或处理 PDF | [kami](kami/SKILL.md)、[pdf](pdf/SKILL.md) | 前者负责视觉排版；后者负责 PDF 内容与文件操作 |
+| 澄清任务或保存、恢复进度 | [goal-ready-coach](goal-ready-coach/SKILL.md)、[handoff](handoff/SKILL.md) | 前者通过追问收敛 Goal Contract；后者保存或加载执行上下文 |
+| 创建工具、AI 功能或审查代码 | [agent-cli-design](agent-cli-design/SKILL.md)、[tap-adapter-author](tap-adapter-author/SKILL.md)、[typesafe-ai](typesafe-ai/SKILL.md)、[open-code-review](open-code-review/SKILL.md) | 分别面向 CLI、站点 adapter、类型化语义判断和 Git review |
+| 维护 skills 或 Markdown Wiki | [skill-creator](skill-creator/SKILL.md)、[sync-docs-index](sync-docs-index/SKILL.md)、[wiki-index-audit](wiki-index-audit/SKILL.md) | 创建/评测技能、同步文档入口、审计检索与页面边界 |
+| 查询个人阅读记录 | [weread-skills](weread-skills/SKILL.md) | 使用微信读书 API，需要 `WEREAD_API_KEY` |
+| 重述回复或核对需求理解 | [bro](bro/SKILL.md)、[in-your-own-words](in-your-own-words/SKILL.md) | 前者简化上一条回复；后者复述用户目标与问题，均用于显式调用 |
 
 ## Skill Index
 
-以下索引覆盖仓库中 28 个非隐藏 skill 目录；名称以技能文件的 `name` 为准。本地 `.system/` 被 Git 忽略，不属于本仓库的发布内容。
+以下索引覆盖当前目录中的 **26 个非隐藏 skill 目录**（2026-10-29 核对）；名称以技能文件的 `name` 为准。`.system/` 被 Git 忽略，插件另外提供的 skills 也不属于此清单。
 
 | Skill | 目录 | 主要用途 | 常见触发 |
 |---|---|---|---|
 | `agent-cli-design` | [`agent-cli-design/`](agent-cli-design/SKILL.md) | 设计、审计、实现 agent 友好的 CLI | CLI 设计、Click/Cobra/Clap/argparse、MCP vs CLI |
-| `aihot` | [`aihot/`](aihot/SKILL.md) | 查询 AI HOT 中文 AI 资讯、精选、热点和日报 | AI 日报、AI HOT、今天 AI 圈有什么 |
-| `answer-me-with-html` | [`answer-me-with-html/`](answer-me-with-html/SKILL.md) | 将 Markdown 草稿渲染为单页 HTML 解释器，支持讲解视频 | 讲讲原理、方案对比、没看懂、做个视频 |
+| `aihot` | [`aihot/`](aihot/SKILL.md) | 查询 AIHOT 中文 AI 资讯、热点、日报和话题 | AI 日报、AIHOT、模型排行、Codex 额度重置 |
 | `anthropic-weekly-blog` | [`anthropic-weekly-blog/`](anthropic-weekly-blog/skill.md) | 分析本周 Anthropic Engineering 博客 | Anthropic weekly blog、本周 Anthropic 工程博客 |
 | `archify` | [`archify/`](archify/SKILL.md) | 生成可交互、可导出的 HTML/SVG 技术图 | 系统架构、调用时序、数据流、状态机、Mermaid 美化 |
 | `bro` | [`bro/`](bro/SKILL.md) | 用无术语的人话简短重述上一条消息 | 显式调用 /bro |
 | `claude-weekly-blog` | [`claude-weekly-blog/`](claude-weekly-blog/SKILL.md) | 分析本周 Claude 博客文章 | Claude blog this week、Claude 本周博客 |
 | `deep-research` | [`deep-research/`](deep-research/SKILL.md) | 多轮搜索、反思、证据交叉验证的深度研究 | research、调查、综合分析、带引用报告 |
-| `design-understanding-check` | [`design-understanding-check/`](design-understanding-check/SKILL.md) | 复杂方案实施前，通过解释与提问帮助使用者理解并接手设计 | 已有复杂方案、理解关键取舍、实施前理解检查 |
 | `eli5` | [`eli5/`](eli5/SKILL.md) | 用大图和少量文字解释陌生概念 | /eli5 <主题>、用最简单的图解释 |
 | `github-repo-analyzer` | [`github-repo-analyzer/`](github-repo-analyzer/SKILL.md) | 分析 GitHub 仓库功能、技术栈和架构 | 给出 GitHub repo URL 并要求分析 |
 | `goal-ready-coach` | [`goal-ready-coach/`](goal-ready-coach/SKILL.md) | 把模糊任务收敛为 Goal Contract，确认后落盘 | Goal Ready、转成 Goal、创建 Goal 前先澄清、小步快跑 |
 | `handoff` | [`handoff/`](handoff/SKILL.md) | 保存或加载 agent-to-agent 技术交接文件 | 保存进度、恢复进度、继续上次、load handoff、checkpoint |
-| `incremental-development` | [`incremental-development/`](incremental-development/SKILL.md) | 先简化复杂改动，再按可验证行为逐片交付 | 复杂改动、小步实现、跨模块协同、失败恢复 |
+| `in-your-own-words` | [`in-your-own-words/`](in-your-own-words/SKILL.md) | 重述用户目标与待解决的问题，核对需求理解 | 显式调用 /in-your-own-words |
 | `kami` | [`kami/`](kami/SKILL.md) | 排版专业文档、幻灯片和产品落地页 | PDF 排版、简历、一页纸、PPT、Marp、landing page |
 | `linuxdo-newsflash` | [`linuxdo-newsflash/`](linuxdo-newsflash/SKILL.md) | 只读 linux.do 前沿快讯列表，生成标题级日报 | linux.do 快讯、前沿快讯、linuxdo-newsflash |
 | `linuxdo-opensource` | [`linuxdo-opensource/`](linuxdo-opensource/SKILL.md) | 筛选 linux.do 开源推广项目 Top 20，记录已展示项目 | 开源推广、linux.do 开源项目、linuxdo-opensource |
@@ -42,22 +57,6 @@
 | `web-tech-article-analyzer` | [`web-tech-article-analyzer/`](web-tech-article-analyzer/SKILL.md) | 用 7 层框架分析技术文章、URL、博客和帖子 | 分析技术文章、URL、博客、Reddit、X、WeChat |
 | `weread-skills` | [`weread-skills/`](weread-skills/SKILL.md) | 查询微信读书书籍、书架、笔记、书评和阅读统计 | 微信读书、搜索书籍、我的书架、划线、阅读统计 |
 | `wiki-index-audit` | [`wiki-index-audit/`](wiki-index-audit/SKILL.md) | 审计 Wiki 检索入口、内容冗余和页面边界 | Wiki 健检、检索质量审计、减少重复、合并拆页 |
-
-## 按任务查找
-
-| 你想做什么 | 推荐入口 | 选择边界 |
-|---|---|---|
-| 查询 AI 新闻或技术博客 | [aihot](aihot/SKILL.md)、[Anthropic 周报](anthropic-weekly-blog/skill.md)、[Claude 周报](claude-weekly-blog/SKILL.md)、[OpenAI 周报](openai-weekly-blog/SKILL.md) | AI HOT 查资讯；周报按站点与周范围过滤 |
-| 浏览 linux.do 快讯或开源项目 | [linuxdo-newsflash](linuxdo-newsflash/SKILL.md)、[linuxdo-opensource](linuxdo-opensource/SKILL.md) | 前者只读快讯标题；后者筛项目并维护展示账本 |
-| 分析文章、仓库或研究问题 | [web-tech-article-analyzer](web-tech-article-analyzer/SKILL.md)、[github-repo-analyzer](github-repo-analyzer/SKILL.md)、[deep-research](deep-research/SKILL.md)、[reddit-analyzer](reddit-analyzer/SKILL.md) | 分别面向文章、代码仓库、多来源研究和社区筛选 |
-| 看懂概念或技术流程 | [answer-me-with-html](answer-me-with-html/SKILL.md)、[archify](archify/SKILL.md)、[eli5](eli5/SKILL.md) | 分别侧重单页解释、技术图和零基础图解 |
-| 理解并接手已有复杂方案 | [design-understanding-check](design-understanding-check/SKILL.md) | 设计完成后、实施前检查理解；不承担前置设计或开发验证 |
-| 排版文档或处理 PDF | [kami](kami/SKILL.md)、[pdf](pdf/SKILL.md) | 前者负责视觉排版；后者负责 PDF 内容与文件操作 |
-| 澄清任务、推进复杂开发或交接 | [goal-ready-coach](goal-ready-coach/SKILL.md)、[incremental-development](incremental-development/SKILL.md)、[handoff](handoff/SKILL.md) | 分别负责契约收敛、行为切片与会话恢复 |
-| 创建工具、AI 功能或审查代码 | [agent-cli-design](agent-cli-design/SKILL.md)、[tap-adapter-author](tap-adapter-author/SKILL.md)、[typesafe-ai](typesafe-ai/SKILL.md)、[open-code-review](open-code-review/SKILL.md) | 分别面向 CLI、站点 adapter、类型化语义判断和 Git review |
-| 维护 skills 或 Markdown Wiki | [skill-creator](skill-creator/SKILL.md)、[sync-docs-index](sync-docs-index/SKILL.md)、[wiki-index-audit](wiki-index-audit/SKILL.md) | 创建/评测技能、同步文档入口、审计检索与页面边界 |
-| 查询个人阅读记录 | [weread-skills](weread-skills/SKILL.md) | 使用微信读书 API，需要 `WEREAD_API_KEY` |
-| 让上一条回复更好懂 | [bro](bro/SKILL.md) | 显式调用，只重述上一条消息 |
 
 ## Skills
 
@@ -80,9 +79,9 @@
 
 ### aihot
 
-**用途：** 通过 AI HOT 的匿名只读 API 获取中文 AI 资讯、日报、当前热点和精选条目。
+**用途：** 通过 AIHOT 的匿名只读 API 获取中文 AI 资讯、日报、当前热点与话题检索结果。
 
-**注意：** 不需要 API Key 或 MCP server；新闻必须基于当前 API 数据，不能凭训练记忆回答。
+**注意：** 不需要 API Key 或 MCP server；只向 `https://aihot.news/` 发 GET 请求，只根据返回内容回答。模型排行、Codex 额度重置等其他问题，先读取 API 使用说明，确认当前支持的能力。服务、数据和第三方原文的使用许可需另查服务条款，Skill 文件的 MIT 许可不覆盖这些内容。
 
 **适合场景：**
 
@@ -94,33 +93,13 @@
 
 ```text
 今天 AI 圈有什么？
-看一下 AI HOT 精选。
+最近一周 AI 圈有什么重点？
 最近 OpenAI/Anthropic/Google 发布了什么？
 ```
 
-### answer-me-with-html
-
-**用途：** 将简短的扩展 Markdown 草稿渲染为单页 HTML 解释器。Agent 写内容，内置 CLI 负责布局、主题、图形坐标和深浅色模式。
-
-**适合场景：**
-
-- 解释多概念关系、调用链、状态转换或方案取舍。
-- 把诊断、计划或技术说明变成可浏览的面板页面。
-- 用户明确要求时，生成带旁白或字幕的讲解视频。
-
-**示例：**
-
-```text
-讲讲这个协议的原理，做成一页 HTML。
-对比这三个方案，展示各自的边界。
-把这个流程做个讲解视频。
-```
-
-**注意：** 页面渲染需要 Node.js 20+，使用 `scripts/am.mjs`，无需安装依赖。视频文件导出另有环境要求；清理缓存需先预览并确认。
-
 ### anthropic-weekly-blog
 
-**用途：** 获取并分析本周 Anthropic Engineering 博客，生成中文技术报告。
+**用途：** 通过 TAP 获取本周 Anthropic Engineering 博客，逐篇调用 `web-tech-article-analyzer`，生成保留每篇完整分析的中文技术报告。
 
 **适合场景：**
 
@@ -133,6 +112,8 @@
 分析本周 Anthropic 工程博客。
 Anthropic weekly blog 有什么新文章？
 ```
+
+**注意：** 按用户当前时区计算周日 00:00 至今天 23:59，以文章 `date` 字段筛选；报告保存到当前工作目录的 `anthropic-weekly-YYYY-MM-DD.md`，无新文章时不分析旧文。
 
 ### archify
 
@@ -201,20 +182,6 @@ latest Claude posts
 对这个主题做 deep research，给出证据和引用。
 调查这个技术方向的主要方案、争议和最新进展。
 ```
-
-### design-understanding-check
-
-**用途：** 在复杂方案设计完成后、实施前，解释目的、机制与取舍，通过场景问题帮助使用者理解并接手维护。
-
-**适合场景：** 核心机制相互依赖、存在重要取舍或维护负担，且误解会影响判断或维护。
-
-**示例：**
-
-```text
-方案已经设计好了，先帮助我理解关键设计，再开始实施。
-```
-
-**注意：** 默认暂停实施，允许明确跳过；依据实际回答检查理解，不按题数判定。与 `incremental-development` 独立共存，不自动绑定调用。
 
 ### eli5
 
@@ -317,24 +284,19 @@ Load Mode:
 从 260531-handoff.md 继续。
 ```
 
-### incremental-development
+### in-your-own-words
 
-**用途：** 先减少不必要的新概念和运行负担，再把确实复杂的改动拆成可独立验证的行为切片。
+**用途：** 用自己的话重述用户想达成的目标，以及正在尝试解决的问题。
 
-**适合场景：**
-
-- 多个关联行为难以一次验收，或涉及跨模块协同。
-- 新增状态、取消、重试、失败恢复或持久化机制。
-- 用户明确要求小步实现、避免过度设计，并保留恢复入口。
+**适合场景：** 在开始执行前核对 Agent 是否理解了需求。
 
 **示例：**
 
 ```text
-这个任务涉及创建、取消和重启恢复，先简化方案，再分片实现和验证。
-不要先铺完整框架，先交付一个能独立验收的行为。
+/in-your-own-words
 ```
 
-**注意：** 简单改动不强行拆分，纯概念讲解不启用；关键验证失败或受阻时，不推进依赖它的工作，不把未验证说成已通过。
+**选择边界：** `bro` 简化上一条回复；本技能复述用户意图；需要通过持续追问把任务推进到可执行契约时，使用 `goal-ready-coach`。
 
 ### kami
 
@@ -607,18 +569,19 @@ OpenAI weekly articles 20260314
 │   ├── dual-queue-goal-workflow.svg
 │   ├── handoff-agent-relay-infographic.html
 │   └── handoff-agent-relay-infographic.png
-├── handoff/
-│   └── SKILL.md
-├── archify/
-│   └── SKILL.md
-└── ...
+├── <skill-name>/
+│   ├── SKILL.md              # 技能入口；anthropic-weekly-blog 在 Git 中为 skill.md
+│   ├── scripts/              # 可选：执行脚本
+│   ├── references/           # 可选：参考资料
+│   ├── assets/               # 可选：模板、字体等技能资源
+│   └── agents/               # 可选：客户端元数据
+└── .system/                  # 本地系统技能，Git 忽略
 ```
 
 ## Maintenance Notes
 
-- 新增、删除或重命名 skill 后，同步 `Skill Index`、`Skills` 和相关任务入口，检查链接是否仍有效。
+- 新增、删除或重命名 skill 后，同步技能总数、`Skill Index`、`Skills` 和相关任务入口；检查相对链接与 Git 中记录的文件名大小写，避免跨平台失效。
 - Skill 名称取自 `SKILL.md` 的 `name`，目录名可能不同；`.system/` 和 `.env` 被 Git 忽略，不要纳入提交。
 - 外部 CLI、网络权限和 API Key 等前置条件以各 skill 的执行规则为准；不要在仓库中保存密钥。
-- 需要展示图示时，将图片或 HTML 源放在 `assets/`，再从 README 引用。
+- 需要展示仓库级图示时，将图片或 HTML 源放在根目录 `assets/`，再从 README 引用；复杂图示优先嵌入截图并保留源文件。
 - 不要为了人类说明去改写 `SKILL.md`；`SKILL.md` 应保持 agent 可执行规则。
-- 如果某个 skill 有复杂示意图，优先在 README 中嵌入截图，并把源文件放入 `assets/`。
