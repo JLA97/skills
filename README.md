@@ -20,6 +20,7 @@
 | 看懂概念或技术流程 | [archify](archify/SKILL.md)、[eli5](eli5/SKILL.md) | 前者绘制技术图；后者用大图和少量文字做零基础解释 |
 | 排版文档或处理 PDF | [kami](kami/SKILL.md)、[pdf](pdf/SKILL.md) | 前者负责视觉排版；后者负责 PDF 内容与文件操作 |
 | 澄清任务或保存、恢复进度 | [goal-ready-coach](goal-ready-coach/SKILL.md)、[handoff](handoff/SKILL.md) | 前者通过追问收敛 Goal Contract；后者保存或加载执行上下文 |
+| 压力测试方案或检验代码理解 | [grilling](grilling/SKILL.md)、[code-grilling](code-grilling/SKILL.md) | 前者在执行前追问设计决策并给建议；后者在代码交付后先出题、再依据证据核对理解 |
 | 创建工具、AI 功能或审查代码 | [agent-cli-design](agent-cli-design/SKILL.md)、[tap-adapter-author](tap-adapter-author/SKILL.md)、[typesafe-ai](typesafe-ai/SKILL.md)、[open-code-review](open-code-review/SKILL.md) | 分别面向 CLI、站点 adapter、类型化语义判断和 Git review |
 | 维护 skills 或 Markdown Wiki | [skill-creator](skill-creator/SKILL.md)、[sync-docs-index](sync-docs-index/SKILL.md)、[wiki-index-audit](wiki-index-audit/SKILL.md) | 创建/评测技能、同步文档入口、审计检索与页面边界 |
 | 查询个人阅读记录 | [weread-skills](weread-skills/SKILL.md) | 使用微信读书 API，需要 `WEREAD_API_KEY` |
@@ -27,7 +28,7 @@
 
 ## Skill Index
 
-以下索引覆盖当前目录中的 **26 个非隐藏 skill 目录**（2026-10-29 核对）；名称以技能文件的 `name` 为准。`.system/` 被 Git 忽略，插件另外提供的 skills 也不属于此清单。
+以下索引覆盖当前目录中的 **28 个非隐藏 skill 目录**（2026-11-03 核对）；名称以技能文件的 `name` 为准。`.system/` 被 Git 忽略，插件另外提供的 skills 也不属于此清单。
 
 | Skill | 目录 | 主要用途 | 常见触发 |
 |---|---|---|---|
@@ -37,10 +38,12 @@
 | `archify` | [`archify/`](archify/SKILL.md) | 生成可交互、可导出的 HTML/SVG 技术图 | 系统架构、调用时序、数据流、状态机、Mermaid 美化 |
 | `bro` | [`bro/`](bro/SKILL.md) | 用无术语的人话简短重述上一条消息 | 显式调用 /bro |
 | `claude-weekly-blog` | [`claude-weekly-blog/`](claude-weekly-blog/SKILL.md) | 分析本周 Claude 博客文章 | Claude blog this week、Claude 本周博客 |
+| `code-grilling` | [`code-grilling/`](code-grilling/SKILL.md) | 基于实际代码与证据，逐轮检验用户对改动的理解 | 写完代码后考我、代码答辩、合并前测验 |
 | `deep-research` | [`deep-research/`](deep-research/SKILL.md) | 多轮搜索、反思、证据交叉验证的深度研究 | research、调查、综合分析、带引用报告 |
 | `eli5` | [`eli5/`](eli5/SKILL.md) | 用大图和少量文字解释陌生概念 | /eli5 <主题>、用最简单的图解释 |
 | `github-repo-analyzer` | [`github-repo-analyzer/`](github-repo-analyzer/SKILL.md) | 分析 GitHub 仓库功能、技术栈和架构 | 给出 GitHub repo URL 并要求分析 |
 | `goal-ready-coach` | [`goal-ready-coach/`](goal-ready-coach/SKILL.md) | 把模糊任务收敛为 Goal Contract，确认后落盘 | Goal Ready、转成 Goal、创建 Goal 前先澄清、小步快跑 |
+| `grilling` | [`grilling/`](grilling/SKILL.md) | 对计划、决策或想法逐轮追问，检验假设与设计取舍 | grilling、grill、方案压力测试 |
 | `handoff` | [`handoff/`](handoff/SKILL.md) | 保存或加载 agent-to-agent 技术交接文件 | 保存进度、恢复进度、继续上次、load handoff、checkpoint |
 | `in-your-own-words` | [`in-your-own-words/`](in-your-own-words/SKILL.md) | 重述用户目标与待解决的问题，核对需求理解 | 显式调用 /in-your-own-words |
 | `kami` | [`kami/`](kami/SKILL.md) | 排版专业文档、幻灯片和产品落地页 | PDF 排版、简历、一页纸、PPT、Marp、landing page |
@@ -167,6 +170,28 @@ Claude 本周博客有哪些？
 latest Claude posts
 ```
 
+### code-grilling
+
+**用途：** 在 Agent 完成代码修改后，基于实际 diff、需求和验证证据逐轮提问，检验使用者能否解释行为变化、关键决策与剩余风险。
+
+**适合场景：**
+
+- 编码任务完成后，确认自己理解并能够为这次交付负责。
+- 合并前，通过具体输入、失败场景和测试盲区检查理解。
+
+**示例：**
+
+```text
+使用 $code-grilling：完成实现和验证后，逐轮考我是否理解这次改动。
+使用 $code-grilling，对本次 diff 开始代码答辩，重点考我重试与部分失败。
+```
+
+**关键机制：** 默认每轮 1 题，先提问并等待回答，不提前给推荐答案；回答后依据代码与证据核对，存在理解缺口时补讲并换场景追问。需求、实现和已验证行为分开判断，不能把错误实现当作标准答案。
+
+**选择边界：** `grilling` 侧重执行前的方案压力测试，本技能侧重交付后的理解检查；`open-code-review` 审查代码缺陷，不负责考察人的理解。
+
+**注意：** 普通编码任务不会自动启动答辩；在任务开始时启用，会先完成已授权实现与验证。只有明确要求“答辩通过才合并”时才增加该任务的合并条件；理解通过不代表代码正确，也不授予提交、合并或发布权限。
+
 ### deep-research
 
 **用途：** 执行多轮研究：拆解问题、搜索、评估证据、发现缺口、处理矛盾并生成带引用报告。
@@ -240,6 +265,28 @@ latest Claude posts
 ```
 
 **注意：** 澄清期间只做只读调查和无副作用验证，不会提前实现 Goal。确认契约后只负责输出与落盘，不调用 Goal 管理工具；创建或执行 Goal 时可直接引用契约文件。
+
+### grilling
+
+**用途：** 对计划、决策或想法进行多轮追问，按设计决策的依赖关系检查前提、取舍与隐含假设，直到双方达成共同理解。
+
+**适合场景：**
+
+- 技术方案评审前，检查设计取舍及其依赖的前提。
+- 产品或其他决策落地前，明确尚未讨论的选择与分支。
+
+**示例：**
+
+```text
+使用 $grilling，帮我压力测试这个 Agent 架构方案。
+使用 $grilling，我准备重构任务调度模块，请逐轮追问我的设计取舍。
+```
+
+**关键机制：** 每轮集中询问前置决策已明确的问题，并给出推荐答案；收到回答后再展开依赖这些答案的后续问题。环境事实由 Agent 调查，设计决策由用户作出。
+
+**选择边界：** `goal-ready-coach` 将模糊需求收敛为可执行的 Goal Contract；本技能检验方案与决策；`code-grilling` 在代码交付后检验理解，不提前给推荐答案。
+
+**注意：** 用户确认已经达成共同理解前，不据此执行方案。
 
 ### handoff
 
